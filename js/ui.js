@@ -8,13 +8,37 @@ const mainContent = document.getElementById('mainContent');
 // Image de secours (Le logo, car on est sûr qu'il existe)
 const FALLBACK_IMAGE = 'functions/Web/Univers/AlexiaFlix - Logo/Logo.png';
 
+// Écouteur pour le changement de thème (Masquage du Hero)
+document.addEventListener('themeChanged', (e) => {
+    const { hideHero } = e.detail;
+    if (heroSection) {
+        if (hideHero) {
+            heroSection.style.display = 'none';
+            heroSection.classList.add('hidden-by-theme');
+        } else {
+            heroSection.style.display = 'block';
+            heroSection.classList.remove('hidden-by-theme');
+            renderHero(); // Relancer le rendu si on le réaffiche
+        }
+    }
+});
+
 /**
  * Affiche un contenu aléatoire dans la section Hero
  */
 export function renderHero() {
     if (!heroSection) return;
 
-    // Assurer que le hero est visible (au cas où on vient des paramètres)
+    // Vérifier si le thème actuel interdit le hero
+    const currentTheme = localStorage.getItem('appTheme') || 'hello_kitty'; // Hello Kitty par défaut
+    // Note: On pourrait aussi checker une classe CSS sur le body, mais ici on check le stockage
+    // Pour être plus robuste, on va se fier à la classe 'hidden-by-theme' gérée par l'event listener
+    if (heroSection.classList.contains('hidden-by-theme')) {
+        heroSection.style.display = 'none';
+        return;
+    }
+
+    // Assurer que le hero est visible (sauf si paramètres ouverts)
     heroSection.style.display = 'block';
 
     const allContent = [...contentData.series, ...contentData.movies, ...contentData.sagas];
@@ -65,7 +89,7 @@ export function renderCategories() {
 export function renderSettings() {
     if (!mainContent) return;
     
-    // Masquer le hero
+    // Masquer le hero temporairement (sans classe 'hidden-by-theme' pour pouvoir le restaurer)
     if (heroSection) heroSection.style.display = 'none';
 
     const currentTheme = localStorage.getItem('appTheme') || 'hello_kitty';
