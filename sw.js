@@ -1,4 +1,4 @@
-const CACHE_NAME = 'alexiaflix-v3'; // UPDATE: v3 Ajout Thèmes + Fix Assets
+const CACHE_NAME = 'alexiaflix-v4'; // UPDATE: v4 Support Dynamic Caching
 
 const URLS_TO_CACHE = [
   './',
@@ -21,7 +21,7 @@ const URLS_TO_CACHE = [
   'js/navigation.js',
   // Assets (URL Encoded)
   'functions/Web/Univers/AlexiaFlix%20-%20Logo/Logo.png',
-  // Hello Kitty Theme Assets
+  // Hello Kitty Theme Assets (Also cached dynamically by logic, but kept here for default)
   'functions/Web/Univers/Hello%20Kitty%20-%20Main/HK%20-%20Interface.png',
   'functions/Web/Univers/Hello%20Kitty%20-%20Main/HK%20-%20Logo.png',
   'functions/Web/Univers/Hello%20Kitty%20-%20Main/HK%20-%20Click.mp3',
@@ -74,4 +74,27 @@ self.addEventListener('fetch', (event) => {
       return response || fetch(event.request);
     })
   );
+});
+
+// NOUVEAU: Écouteur pour la mise en cache dynamique des thèmes
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'CACHE_THEME_ASSETS') {
+    const assets = event.data.payload;
+    if (assets && assets.length > 0) {
+      caches.open(CACHE_NAME).then((cache) => {
+        // Encodage URL si nécessaire (simple précaution)
+        const encodedAssets = assets.map(url => {
+            // Si l'URL contient des espaces et n'est pas déjà encodée
+            if (url.includes(' ') && !url.includes('%20')) {
+                return url.split('/').map(encodeURIComponent).join('/').replace(/%3A/g, ':');
+            }
+            return url;
+        });
+        
+        cache.addAll(encodedAssets).then(() => {
+             console.log('🎨 [SW] Assets du thème mis en cache:', encodedAssets);
+        }).catch(err => console.error('❌ [SW] Erreur cache thème:', err));
+      });
+    }
+  }
 });
