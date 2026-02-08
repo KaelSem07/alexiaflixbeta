@@ -81,7 +81,27 @@ export function applyTheme(themeKey) {
     const event = new CustomEvent('themeChanged', { detail: { themeKey, hideHero: theme.hideHero } });
     document.dispatchEvent(event);
 
+    // Save preference
     localStorage.setItem('appTheme', themeKey);
+
+    // --- SERVICE WORKER CACHING ---
+    // On demande au SW de mettre en cache les assets du thème choisi
+    // pour garantir qu'ils soient disponibles offline au prochain démarrage
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+        const assetsToCache = Object.values(theme.assets).filter(url => url);
+        
+        // Ajouter l'image de fond si elle existe dans les variables CSS
+        if (theme.variables['--body-bg-image'] && theme.variables['--body-bg-image'].includes('url(')) {
+            const match = theme.variables['--body-bg-image'].match(/url\("?(.+?)"?\)/);
+            if (match && match[1]) assetsToCache.push(match[1]);
+        }
+
+        navigator.serviceWorker.controller.postMessage({
+            type: 'CACHE_THEME_ASSETS',
+            payload: assetsToCache
+        });
+        console.log("📤 Demande de mise en cache du thème envoyée au SW");
+    }
 }
 
 export function getThemeAssets() {
