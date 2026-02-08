@@ -3,7 +3,7 @@ import * as UI from './ui.js';
 import * as Player from './player.js';
 import * as Modal from './modal.js';
 import * as Search from './search.js';
-import * as Navigation from './navigation.js'; // AJOUT CRUCIAL
+import * as Navigation from './navigation.js'; 
 
 let isAppInitialized = false;
 
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Init Modules
     Player.initPlayer();
     Search.initSearch();
-    Navigation.initNavigation(); // DÉMARRAGE NAVIGATION
+    Navigation.initNavigation(); 
 
     // Event de restauration UI
     document.addEventListener('restoreUI', () => {
@@ -43,15 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 4. Gestionnaire Bouton Settings (Nouveau)
-    const settingsBtn = document.getElementById('settingsBtn');
-    if (settingsBtn) {
-        settingsBtn.addEventListener('click', () => {
-            UI.renderSettings();
-        });
-    }
-
-    // 5. Écouteur global de l'état Auth
+    // 4. Écouteur global de l'état Auth
     window.addEventListener('authStateChanged', (e) => {
         const user = e.detail.user;
         const authOverlay = document.getElementById('auth-overlay');
@@ -97,6 +89,15 @@ function initializeApp() {
 function handleGlobalClicks(e) {
     const target = e.target;
 
+    // --- OPEN SETTINGS (Nouveau: Via délégation) ---
+    const settingsBtn = target.closest('#settingsBtn');
+    if (settingsBtn) {
+        e.preventDefault();
+        console.log("⚙️ Ouverture des paramètres");
+        UI.renderSettings();
+        return;
+    }
+
     // --- PLAY ---
     const playBtn = target.closest('.play-btn');
     if (playBtn) {
@@ -131,12 +132,12 @@ function handleGlobalClicks(e) {
     }
 
     // --- NAVIGATION HOME ---
-    // (Ajout simple pour permettre de revenir à l'accueil si on clique sur Accueil)
     const navItem = target.closest('.nav-item');
     if (navItem && navItem.dataset.filter === 'all') {
         e.preventDefault();
         UI.renderHero();
         UI.renderCategories();
+        
         // Mise à jour de la classe active
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
         navItem.classList.add('active');
