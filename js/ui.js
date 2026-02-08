@@ -68,14 +68,28 @@ export function renderSettings() {
     // Masquer le hero
     if (heroSection) heroSection.style.display = 'none';
 
+    const currentTheme = localStorage.getItem('appTheme') || 'hello_kitty';
+
     mainContent.innerHTML = `
         <div class="settings-container" style="padding: 100px 4% 40px; color: white; max-width: 800px; margin: 0 auto;">
             <h1 style="margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 10px;">Paramètres</h1>
             
+            <div class="settings-section" style="margin-bottom: 40px;">
+                <h3 style="color: #ccc; margin-bottom: 15px;">Apparence</h3>
+                <div style="background: var(--card-bg); padding: 20px; border-radius: 4px;">
+                    <label style="display: block; margin-bottom: 10px; color: var(--text-main);">Thème de l'interface</label>
+                    <select id="themeSelect" class="btn" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); color: var(--text-main); border: 1px solid #444; border-radius: 4px; cursor: pointer;">
+                        <option value="default" ${currentTheme === 'default' ? 'selected' : ''}>Netflix (Défaut)</option>
+                        <option value="hello_kitty" ${currentTheme === 'hello_kitty' ? 'selected' : ''}>Hello Kitty</option>
+                    </select>
+                    <p style="margin-top: 10px; font-size: 0.8rem; color: var(--text-secondary);">D'autres thèmes arriveront bientôt !</p>
+                </div>
+            </div>
+
             <div class="settings-section">
                 <h3 style="color: #ccc; margin-bottom: 15px;">Mon Compte</h3>
-                <div style="background: #2f2f2f; padding: 20px; border-radius: 4px;">
-                    <p style="margin-bottom: 20px;">Vous êtes connecté.</p>
+                <div style="background: var(--card-bg); padding: 20px; border-radius: 4px;">
+                    <p style="margin-bottom: 20px; color: var(--text-main);">Vous êtes connecté.</p>
                     <button id="settingsLogoutBtn" class="btn" style="background-color: #e50914; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; display: flex; align-items: center; gap: 10px;">
                         <i class="fas fa-sign-out-alt"></i> Se déconnecter
                     </button>
