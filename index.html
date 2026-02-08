@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AlexiaFlix</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/player.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#141414">
+
+    <!-- FIREBASE (SDK Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+
+    <!-- AUTH OVERLAY -->
+    <div id="auth-overlay" class="auth-overlay active">
+        <div class="auth-box">
+            <!-- CORRECTION PATH: Ajout de 'Images/' manquant -->
+            <img src="functions/Web/Images/AlexiaFlix - Logo/AlexiaFlix - Logo 2.png" alt="AlexiaFlix" class="auth-logo" style="max-width: 200px; margin-bottom: 20px;">
+            <h2 style="font-size: 1.5rem; margin-bottom: 30px;">Identifiez-vous</h2>
+            
+            <button id="googleSignInBtn" class="btn" style="background: white; color: #444; width: 100%; display: flex; align-items: center; justify-content: center; gap: 15px; padding: 15px; border-radius: 4px; font-weight: bold; transition: transform 0.2s;">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width: 24px; height: 24px;">
+                Se connecter avec Google
+            </button>
+            
+            <p id="loginError" style="color: #e50914; margin-top: 15px; font-size: 0.9rem; display: none;"></p>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="app" style="display: none;">
+        
+        <!-- HEADER -->
+        <header class="header">
+            <!-- CORRECTION PATH: Ajout de 'Images/' manquant -->
+            <img src="functions/Web/Images/AlexiaFlix - Logo/AlexiaFlix - Logo 2.png" alt="AlexiaFlix Logo" class="logo">
+            <nav class="nav-links">
+                <a href="#" class="nav-item active" data-filter="all">Accueil</a>
+                <a href="#" class="nav-item" data-filter="series">Séries</a>
+                <a href="#" class="nav-item" data-filter="movie">Films</a>
+                <a href="#" class="nav-item" data-filter="saga">Sagas</a>
+            </nav>
+            <div class="header-right" style="margin-left: auto; display: flex; gap: 15px; color: white; align-items: center;">
+                <i class="fas fa-search nav-icon"></i>
+                <button id="logoutBtn" style="background: transparent; border: none; color: white; cursor: pointer;">
+                    <i class="fas fa-sign-out-alt nav-icon"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero">
+            <!-- Injecté par ui.js -->
+        </section>
+
+        <!-- MAIN CONTENT -->
+        <main id="mainContent" class="content-container" style="padding-top: 20px; padding-bottom: 50px;">
+            <!-- Injecté par ui.js -->
+        </main>
+
+    </div>
+
+    <!-- MODAL -->
+    <div id="modal-overlay" class="modal">
+        <div id="modal-content-inject" class="modal-content"></div>
+    </div>
+
+    <!-- PLAYER OVERLAY -->
+    <div id="playerOverlay" class="player-overlay">
+        <button id="closePlayerBtn" class="close-player-btn"><i class="fas fa-arrow-left"></i></button>
+        <video id="mainVideo" controls controlsList="nodownload" disablePictureInPicture></video>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script type="module" src="js/main.js"></script>
+
+    <!-- SERVICE WORKER -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js');
+            });
+        }
+    </script>
+</body>
+</html>

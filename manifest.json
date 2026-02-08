@@ -1,0 +1,21 @@
+{
+  "name": "AlexiaFlix",
+  "short_name": "AlexiaFlix",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#141414",
+  "theme_color": "#141414", 
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "functions/Web/Images/AlexiaFlix%20-%20Logo/AlexiaFlix%20-%20Logo%202.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "functions/Web/Images/AlexiaFlix%20-%20Logo/AlexiaFlix%20-%20Logo%202.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

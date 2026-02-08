@@ -1,0 +1,190 @@
+:root {
+    --bg-color: #141414;
+    --card-bg: #1f1f1f;
+    --primary: #e50914;
+    --accent: #ff1493; /* Rose Anastasia */
+    --text-main: #ffffff;
+    --text-secondary: #b3b3b3;
+    /* UPDATE: Dégradé plus doux et plus long pour l'entête */
+    --header-gradient: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 40%, transparent 100%);
+    --hero-gradient: linear-gradient(77deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 85%);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    opacity: 1 !important; 
+}
+
+:focus { outline: none; }
+
+/* --- LAYOUT & SCROLL --- */
+.row-container {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    gap: 15px;
+    padding-left: 4%; /* Alignement gauche uniforme */
+}
+
+.row-container::-webkit-scrollbar { display: none; }
+.drag-scroll-container { cursor: grab; user-select: none; }
+.drag-scroll-container.active-drag { cursor: grabbing; }
+
+/* --- HEADER (Revisité) --- */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 70px; /* Hauteur fixe pour stabilité */
+    padding: 0 4%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--header-gradient);
+    z-index: 100;
+    transition: background-color 0.4s ease-in-out;
+}
+
+.header.scrolled {
+    background-color: #141414; /* Noir solide au scroll */
+}
+
+/* Logo plus élégant */
+.logo {
+    height: 35px; /* Taille standard Netflix */
+    width: auto;
+    object-fit: contain;
+    margin-right: 40px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); /* Ombre portée pour détacher du fond */
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    flex-grow: 1;
+    align-items: center;
+}
+
+.nav-item {
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #e5e5e5;
+    transition: color 0.3s;
+}
+
+.nav-item.active, .nav-item:hover {
+    color: #fff;
+    font-weight: 500;
+}
+
+/* --- HERO SECTION --- */
+.hero {
+    position: relative;
+    height: 85vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 4%;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+}
+
+/* Masque progressif sur le bas de l'image hero */
+.hero-bg::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    background: linear-gradient(180deg, transparent, #141414);
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+    z-index: 0;
+}
+
+.hero-content {
+    z-index: 10;
+    max-width: 500px;
+    margin-top: 0; /* Centrage vertical naturel via flex */
+    animation: fadeInUp 1.5s;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    line-height: 1.1;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+}
+
+.hero-desc {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.hero-btns { display: flex; gap: 15px; }
+
+/* --- CATEGORIES --- */
+.category-section { 
+    padding: 10px 0; 
+    position: relative; 
+    z-index: 20; 
+    margin-bottom: 3vw;
+}
+
+.category-title { 
+    font-size: 1.2rem; 
+    font-weight: 600; 
+    margin-bottom: 10px; 
+    padding-left: 4%;
+    color: #e5e5e5; 
+}
+
+.category-title:hover { color: #fff; }
+
+/* --- ANIMATIONS --- */
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .header { padding: 10px 4%; height: auto; flex-wrap: wrap; background: #141414; }
+    .nav-links { 
+        order: 3; 
+        width: 100%; 
+        justify-content: space-between; 
+        padding-top: 10px; 
+        overflow-x: auto;
+    }
+    .hero { height: 60vh; align-items: flex-end; padding-bottom: 50px; }
+    .hero-title { font-size: 2rem; }
+    .hero-content { margin-top: 0; padding: 0 5% 20px 5%; width: 100%; max-width: 100%; }
+    .logo { margin-right: 0; }
+}
