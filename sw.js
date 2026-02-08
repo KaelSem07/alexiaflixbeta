@@ -1,4 +1,4 @@
-const CACHE_NAME = 'alexiaflix-v6'; // UPDATE: v6 Intro Overlay Sound
+const CACHE_NAME = 'alexiaflix-v7'; // UPDATE: v7 Fix PWA Installation (Missing Assets Removed)
 
 const URLS_TO_CACHE = [
   './',
@@ -18,16 +18,9 @@ const URLS_TO_CACHE = [
   'js/auth.js',
   'js/fuze.js',   
   'js/search.js', 
-  'js/navigation.js',
-  // Assets (URL Encoded)
-  'functions/Web/Univers/AlexiaFlix%20-%20Logo/Logo.png',
-  'functions/Web/Univers/Open.mp3', // Nouveau son intro
-  // Hello Kitty Theme Assets (Also cached dynamically by logic, but kept here for default)
-  'functions/Web/Univers/Hello%20Kitty%20-%20Main/HK%20-%20Interface.png',
-  'functions/Web/Univers/Hello%20Kitty%20-%20Main/HK%20-%20Logo.png',
-  'functions/Web/Univers/Hello%20Kitty%20-%20Main/HK%20-%20Click.mp3',
-  'functions/Web/Univers/Hello%20Kitty%20-%20Main/HK%20-%20Play%20Media.mp3',
-  'functions/Web/Univers/Hello%20Kitty%20-%20Main/HK%20-%20Notif.mp3'
+  'js/navigation.js'
+  // Assets (URL Encoded) - REMOVED because files are missing in repository
+  // Restore them here once the 'functions' folder is uploaded
 ];
 
 self.addEventListener('install', (event) => {
