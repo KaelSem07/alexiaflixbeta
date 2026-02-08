@@ -1,4 +1,4 @@
-const CACHE_NAME = 'alexiaflix-v5'; // UPDATE: v4 Support Dynamic Caching
+const CACHE_NAME = 'alexiaflix-v6'; // UPDATE: v6 Intro Overlay Sound
 
 const URLS_TO_CACHE = [
   './',
@@ -21,6 +21,7 @@ const URLS_TO_CACHE = [
   'js/navigation.js',
   // Assets (URL Encoded)
   'functions/Web/Univers/AlexiaFlix%20-%20Logo/Logo.png',
+  'functions/Web/Univers/Open.mp3', // Nouveau son intro
   // Hello Kitty Theme Assets (Also cached dynamically by logic, but kept here for default)
   'functions/Web/Univers/Hello%20Kitty%20-%20Main/HK%20-%20Interface.png',
   'functions/Web/Univers/Hello%20Kitty%20-%20Main/HK%20-%20Logo.png',
