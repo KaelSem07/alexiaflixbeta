@@ -4,10 +4,14 @@ import * as Player from './player.js';
 import * as Modal from './modal.js';
 import * as Search from './search.js';
 import * as Navigation from './navigation.js'; 
+import { initTheme, applyTheme, playSound } from './utils.js';
 
 let isAppInitialized = false;
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 0. Initialisation Thème
+    initTheme();
+
     // 1. Initialisation Auth
     initAuth();
     
@@ -26,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const googleBtn = document.getElementById('googleSignInBtn');
     if (googleBtn) {
         googleBtn.addEventListener('click', async () => {
+            playSound('click');
             try {
                 googleBtn.style.opacity = '0.7';
                 googleBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connexion...';
@@ -77,6 +82,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (app) app.style.display = 'none';
         }
     });
+
+    // 5. Gestionnaire Changement Thème (Délégué)
+    document.addEventListener('change', (e) => {
+        if (e.target.id === 'themeSelect') {
+            console.log("🎨 Changement de thème:", e.target.value);
+            applyTheme(e.target.value);
+            playSound('click');
+        }
+    });
 });
 
 function initializeApp() {
@@ -88,6 +102,11 @@ function initializeApp() {
 
 function handleGlobalClicks(e) {
     const target = e.target;
+
+    // Son au clic pour les éléments interactifs
+    if (target.closest('button') || target.closest('a') || target.closest('.card') || target.closest('.nav-item')) {
+        playSound('click');
+    }
 
     // --- OPEN SETTINGS (Nouveau: Via délégation) ---
     const settingsBtn = target.closest('#settingsBtn');
@@ -106,6 +125,7 @@ function handleGlobalClicks(e) {
         const episode = playBtn.dataset.episode || null;
         const sagaIndex = playBtn.dataset.sagaIndex || null;
 
+        playSound('play'); // Son spécifique play
         Player.openPlayer(id, episode, sagaIndex);
         return;
     }
@@ -139,8 +159,7 @@ function handleGlobalClicks(e) {
         UI.renderCategories();
         
         // Mise à jour de la classe active
-        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-        navItem.classList.add('active');
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));\n        navItem.classList.add('active');
         return;
     }
 }
