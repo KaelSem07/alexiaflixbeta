@@ -159,7 +159,8 @@ function handleGlobalClicks(e) {
         UI.renderCategories();
         
         // Mise à jour de la classe active
-        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));\n        navItem.classList.add('active');
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        navItem.classList.add('active');
         return;
     }
 }
