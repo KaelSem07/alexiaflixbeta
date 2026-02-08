@@ -21,8 +21,8 @@ export const THEMES = {
             '--hero-gradient': 'linear-gradient(77deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 85%)'
         },
         assets: {
-             logo: 'functions/Web/Images/AlexiaFlix - Logo/AlexiaFlix - Logo 2.png',
-             fallbackImage: 'functions/Web/Images/AlexiaFlix - Logo/AlexiaFlix - Logo 2.png',
+             logo: 'functions/Web/Univers/AlexiaFlix - Logo/Logo.png',
+             fallbackImage: 'functions/Web/Univers/AlexiaFlix - Logo/Logo.png',
              clickSound: null,
              playSound: null,
              notifSound: null
@@ -106,7 +106,9 @@ export function getImagePath(item, type) {
     if (!filename) return '';
     
     // On encode chaque partie du dossier pour gérer les espaces
-    const folder = item.imgFolder.split('/').map(part => encodeURIComponent(part)).join('/');\n    const file = encodeURIComponent(filename);\n
+    const folder = item.imgFolder.split('/').map(part => encodeURIComponent(part)).join('/');
+    const file = encodeURIComponent(filename);
+
     return `${CONSTANTS.IMG_BASE_PATH}${folder}/${file}`;
 }
 
@@ -132,7 +134,8 @@ export function buildEpisodePath(seriesObj, season, episodeNum) {
         return '';
     }
 
-    const encodedFolder = seriesObj.folder.split('/').map(p => encodeURIComponent(p)).join('/');\n    const fileName = `${seriesObj.prefix} - S${season} - Ep${episodeNum}.mp4`;
+    const encodedFolder = seriesObj.folder.split('/').map(p => encodeURIComponent(p)).join('/');
+    const fileName = `${seriesObj.prefix} - S${season} - Ep${episodeNum}.mp4`;
     const encodedFileName = encodeURIComponent(fileName);
     
     return `${CONSTANTS.VIDEO_BASE_PATH}${encodedFolder}/S${season}/${encodedFileName}`;
@@ -150,7 +153,8 @@ export function getSagaVideoPath(sagaItem, movieIndex) {
     const movie = sagaItem.movies[movieIndex];
     // Gestion robuste des dossiers avec espaces (ex: "James Bond")
     const folder = sagaItem.folder || '';
-    const encodedFolder = folder.split('/').map(p => encodeURIComponent(p)).join('/');\n    const encodedFile = encodeURIComponent(movie.fileName);
+    const encodedFolder = folder.split('/').map(p => encodeURIComponent(p)).join('/');
+    const encodedFile = encodeURIComponent(movie.fileName);
 
     return `${CONSTANTS.VIDEO_BASE_PATH}${encodedFolder}/${encodedFile}`;
 }
