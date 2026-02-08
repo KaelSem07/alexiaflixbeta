@@ -1,4 +1,4 @@
-const CACHE_NAME = 'alexiaflix-v4'; // UPDATE: v4 Support Dynamic Caching
+const CACHE_NAME = 'alexiaflix-v5'; // UPDATE: v4 Support Dynamic Caching
 
 const URLS_TO_CACHE = [
   './',
