@@ -6,7 +6,7 @@ const heroSection = document.getElementById('hero');
 const mainContent = document.getElementById('mainContent');
 
 // Image de secours (Le logo, car on est sûr qu'il existe)
-const FALLBACK_IMAGE = 'functions/Web/Images/AlexiaFlix - Logo/AlexiaFlix - Logo 2.png';
+const FALLBACK_IMAGE = 'functions/Web/Univers/AlexiaFlix - Logo/Logo.png';
 
 /**
  * Affiche un contenu aléatoire dans la section Hero
