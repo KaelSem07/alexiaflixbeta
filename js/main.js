@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event de restauration UI
     document.addEventListener('restoreUI', () => {
         UI.renderCategories();
+        UI.renderHero();
     });
 
     // 3. Gestionnaire Bouton Connexion Google
@@ -42,12 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 4. Gestionnaire Bouton Déconnexion
-    const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', async () => {
-            await signOutUser();
-            window.location.reload(); 
+    // 4. Gestionnaire Bouton Settings (Nouveau)
+    const settingsBtn = document.getElementById('settingsBtn');
+    if (settingsBtn) {
+        settingsBtn.addEventListener('click', () => {
+            UI.renderSettings();
         });
     }
 
@@ -120,5 +120,26 @@ function handleGlobalClicks(e) {
     // --- CLOSE MODAL ---
     if (target.closest('.close-modal') || target.classList.contains('modal')) {
         Modal.closeModal();
+    }
+
+    // --- SETTINGS LOGOUT ---
+    const logoutBtn = target.closest('#settingsLogoutBtn');
+    if (logoutBtn) {
+        e.preventDefault();
+        signOutUser().then(() => window.location.reload());
+        return;
+    }
+
+    // --- NAVIGATION HOME ---
+    // (Ajout simple pour permettre de revenir à l'accueil si on clique sur Accueil)
+    const navItem = target.closest('.nav-item');
+    if (navItem && navItem.dataset.filter === 'all') {
+        e.preventDefault();
+        UI.renderHero();
+        UI.renderCategories();
+        // Mise à jour de la classe active
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        navItem.classList.add('active');
+        return;
     }
 }
