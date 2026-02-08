@@ -18,7 +18,8 @@ export const THEMES = {
             '--text-main': '#ffffff',
             '--text-secondary': '#b3b3b3',
             '--header-gradient': 'linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 40%, transparent 100%)',
-            '--hero-gradient': 'linear-gradient(77deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 85%)'
+            '--hero-gradient': 'linear-gradient(77deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 85%)',
+            '--body-bg-image': 'none' // Pas d'image de fond par défaut
         },
         assets: {
              logo: 'functions/Web/Univers/AlexiaFlix - Logo/Logo.png',
@@ -26,19 +27,22 @@ export const THEMES = {
              clickSound: null,
              playSound: null,
              notifSound: null
-        }
+        },
+        hideHero: false // Afficher le Hero
     },
     hello_kitty: {
         name: 'Hello Kitty',
         type: 'light',
         variables: {
-            '--bg-color': '#ffe6ea',
-            '--card-bg': '#fff0f5',
+            // Fond sombre imposé (noir teinté rose très sombre) pour éviter l'agression visuelle
+            '--bg-color': '#2a1a1f', 
+            '--card-bg': 'rgba(255, 105, 180, 0.1)', // Légère teinte rose
             '--primary': '#ff69b4',
-            '--text-main': '#5c0029',
-            '--text-secondary': '#8b4b6d',
-            '--header-gradient': 'linear-gradient(180deg, rgba(255,105,180,0.9) 0%, rgba(255,105,180,0.6) 40%, transparent 100%)',
-            '--hero-gradient': 'linear-gradient(77deg, rgba(255,182,193,.6) 0%, rgba(255,182,193,0) 85%)'
+            '--text-main': '#ffe6ea',
+            '--text-secondary': '#ffb6c1',
+            '--header-gradient': 'linear-gradient(180deg, rgba(42,26,31,0.9) 0%, rgba(42,26,31,0.6) 40%, transparent 100%)',
+            '--hero-gradient': 'none',
+            '--body-bg-image': 'url("functions/Web/Univers/Hello Kitty - Main/HK - Interface.png")' // Image de fond
         },
         assets: {
              logo: 'functions/Web/Univers/Hello Kitty - Main/HK - Logo.png',
@@ -47,7 +51,8 @@ export const THEMES = {
              clickSound: 'functions/Web/Univers/Hello Kitty - Main/HK - Click.mp3',
              playSound: 'functions/Web/Univers/Hello Kitty - Main/HK - Play Media.mp3',
              notifSound: 'functions/Web/Univers/Hello Kitty - Main/HK - Notif.mp3'
-        }
+        },
+        hideHero: true // Masquer le Hero pour ce thème
     }
 };
 
@@ -71,6 +76,10 @@ export function applyTheme(themeKey) {
     logos.forEach(img => {
         if(theme.assets.logo) img.src = theme.assets.logo;
     });
+    
+    // Dispatch event pour que l'UI se mette à jour (masquage Hero)
+    const event = new CustomEvent('themeChanged', { detail: { themeKey, hideHero: theme.hideHero } });
+    document.dispatchEvent(event);
 
     localStorage.setItem('appTheme', themeKey);
 }
