@@ -192,8 +192,7 @@
     top: 0; left: 0;
     width: 100%; height: 100%;
     background: rgba(20, 20, 20, 0.95);
-    /* CORRECTION ICI : "Web/Images" au lieu de "WebImages" */
-    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../functions/Web/Images/login-bg.jpg');
+    background-image: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
     background-size: cover;
     background-position: center;
     backdrop-filter: blur(12px);
@@ -236,8 +235,7 @@
     color: #ccc;
     margin-bottom: 30px;
     font-size: 1.1rem;
-    line-height: 1.5;
-}
+    line-height: 1.5;\n}
 
 /* Style spécifique pour le bouton connexion dans la box */
 .auth-box #signInBtn {
