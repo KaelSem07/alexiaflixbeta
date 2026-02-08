@@ -1,4 +1,4 @@
-const CACHE_NAME = 'alexiaflix-v2'; // UPDATE: v22 Ajout Navigation.js
+const CACHE_NAME = 'alexiaflix-v3'; // UPDATE: v3 Ajout Thèmes + Fix Assets
 
 const URLS_TO_CACHE = [
   './',
@@ -18,9 +18,15 @@ const URLS_TO_CACHE = [
   'js/auth.js',
   'js/fuze.js',   
   'js/search.js', 
-  'js/navigation.js', // AJOUTÉ
-  // Assets
-  'functions/Web/Univers/AlexiaFlix%20-%20Logo/Logo.png'
+  'js/navigation.js',
+  // Assets (URL Encoded)
+  'functions/Web/Univers/AlexiaFlix%20-%20Logo/Logo.png',
+  // Hello Kitty Theme Assets
+  'functions/Web/Univers/Hello%20Kitty%20-%20Main/HK%20-%20Interface.png',
+  'functions/Web/Univers/Hello%20Kitty%20-%20Main/HK%20-%20Logo.png',
+  'functions/Web/Univers/Hello%20Kitty%20-%20Main/HK%20-%20Click.mp3',
+  'functions/Web/Univers/Hello%20Kitty%20-%20Main/HK%20-%20Play%20Media.mp3',
+  'functions/Web/Univers/Hello%20Kitty%20-%20Main/HK%20-%20Notif.mp3'
 ];
 
 self.addEventListener('install', (event) => {
