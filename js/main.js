@@ -9,6 +9,33 @@ import { initTheme, applyTheme, playSound } from './utils.js';
 let isAppInitialized = false;
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 0. Intro Overlay Handling
+    const introOverlay = document.getElementById('intro-overlay');
+    if (introOverlay) {
+        // Prevent interaction with anything else
+        introOverlay.style.display = 'flex';
+        
+        const handleIntroClick = () => {
+            // Play startup sound
+            const audio = new Audio('functions/Web/Univers/Open.mp3');
+            audio.volume = 0.5; // Ajuster le volume si nécessaire
+            audio.play().catch(e => console.log("Audio autoplay failed:", e));
+
+            // Fade out overlay
+            introOverlay.style.transition = 'opacity 0.5s ease';
+            introOverlay.style.opacity = '0';
+            setTimeout(() => {
+                introOverlay.style.display = 'none';
+                introOverlay.remove(); // Clean up DOM
+            }, 500);
+
+            // Remove listener
+            document.removeEventListener('click', handleIntroClick);
+        };
+
+        introOverlay.addEventListener('click', handleIntroClick);
+    }
+
     // 0. Initialisation Thème
     initTheme();
 
