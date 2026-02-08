@@ -1,4 +1,4 @@
-const CACHE_NAME = 'alexiaflix-v22'; // UPDATE: v22 Ajout Navigation.js
+const CACHE_NAME = 'alexiaflix-v2'; // UPDATE: v22 Ajout Navigation.js
 
 const URLS_TO_CACHE = [
   './',
@@ -20,7 +20,7 @@ const URLS_TO_CACHE = [
   'js/search.js', 
   'js/navigation.js', // AJOUTÉ
   // Assets
-  'functions/Web/Images/AlexiaFlix%20-%20Logo/AlexiaFlix%20-%20Logo%202.png'
+  'functions/Web/Univers/AlexiaFlix%20-%20Logo/Logo.png'
 ];
 
 self.addEventListener('install', (event) => {
