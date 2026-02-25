@@ -1,19 +1,19 @@
 {
-  "name": "AlexiaFlix",
-  "short_name": "AlexiaFlix",
+  "name": "Alexia Hub",
+  "short_name": "Hub",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#141414",
-  "theme_color": "#141414", 
+  "background_color": "#000000",
+  "theme_color": "#e50914",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "functions/Web/Univers/AlexiaFlix%20-%20Logo/Logo.png",
+      "src": "./functions/Web/Univers/AlexiaFlix - Logo/Logo.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "functions/Web/Univers/AlexiaFlix%20-%20Logo/Logo.png",
+      "src": "./functions/Web/Univers/AlexiaFlix - Logo/Logo.png",
       "sizes": "512x512",
       "type": "image/png"
     }

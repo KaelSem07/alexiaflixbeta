@@ -1,42 +1,27 @@
-const CACHE_NAME = 'alexiaflix-v7'; // UPDATE: v7 Fix PWA Installation (Missing Assets Removed)
+const CACHE_NAME = 'alexia-hub-v12';
 
-const URLS_TO_CACHE = [
+// On met en cache la base de l'app pour un chargement instantané
+const ASSETS_TO_CACHE = [
   './',
-  'index.html',
-  'manifest.json',
-  // CSS
-  'css/main.css',
-  'css/components.css',
-  'css/player.css',
-  // JS Modules
-  'js/main.js',
-  'js/data.js',
-  'js/utils.js',
-  'js/player.js',
-  'js/modal.js',
-  'js/ui.js',
-  'js/auth.js',
-  'js/fuze.js',   
-  'js/search.js', 
-  'js/navigation.js'
-  // Assets (URL Encoded) - REMOVED because files are missing in repository
-  // Restore them here once the 'functions' folder is uploaded
+  './index.html',
+  './manifest.json',
+  './functions/Web/Univers/AlexiaFlix - Logo/Logo.png',
+  './functions/Web/Univers/Hello Kitty - Main/HK - Click.mp3',
+  './functions/Web/Univers/Hello Kitty - Main/HK - Notif.mp3',
+  './functions/Web/Univers/Open site.mp3'
 ];
 
+// Installation : on précharge les assets
 self.addEventListener('install', (event) => {
-  self.skipWaiting(); 
+  self.skipWaiting(); // Permet au SW de s'activer instantanément sans attendre
   event.waitUntil(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      try {
-          await cache.addAll(URLS_TO_CACHE);
-          console.log(`✅ Cache ${CACHE_NAME} installé.`);
-      } catch (error) {
-          console.error('❌ Erreur cache:', error);
-      }
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(ASSETS_TO_CACHE);
     })
   );
 });
 
+// Activation : on nettoie les vieux caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -47,48 +32,33 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    }).then(() => self.clients.claim())
-  );
-});
-
-self.addEventListener('fetch', (event) => {
-  const url = new URL(event.request.url);
-
-  if (url.pathname.endsWith('.mp4')) return;
-
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request).catch(() => caches.match(event.request))
-    );
-    return;
-  }
-
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
     })
   );
 });
 
-// NOUVEAU: Écouteur pour la mise en cache dynamique des thèmes
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'CACHE_THEME_ASSETS') {
-    const assets = event.data.payload;
-    if (assets && assets.length > 0) {
-      caches.open(CACHE_NAME).then((cache) => {
-        // Encodage URL si nécessaire (simple précaution)
-        const encodedAssets = assets.map(url => {
-            // Si l'URL contient des espaces et n'est pas déjà encodée
-            if (url.includes(' ') && !url.includes('%20')) {
-                return url.split('/').map(encodeURIComponent).join('/').replace(/%3A/g, ':');
-            }
-            return url;
-        });
-        
-        cache.addAll(encodedAssets).then(() => {
-             console.log('🎨 [SW] Assets du thème mis en cache:', encodedAssets);
-        }).catch(err => console.error('❌ [SW] Erreur cache thème:', err));
-      });
-    }
+// Stratégie intelligente : Network First avec Dynamic Caching
+self.addEventListener('fetch', (event) => {
+  const url = event.request.url;
+
+  // Règle d'or : Ne JAMAIS mettre en cache la base de données (liste_films) ni les vidéos
+  // Ça te permet de ne plus rien avoir à toucher : tu index et c'est direct sur le site.
+  if (url.endsWith('.mp4') || url.includes('liste_films.txt')) {
+    return; // On laisse le navigateur faire son boulot en direct !
   }
+
+  event.respondWith(
+    fetch(event.request).then(response => {
+      // Si la requête internet fonctionne, on en profite pour actualiser discrètement le cache local
+      if (response && response.status === 200 && response.type === 'basic') {
+        const responseToCache = response.clone();
+        caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, responseToCache);
+        });
+      }
+      return response;
+    }).catch(() => {
+      // Si t'es hors ligne ou que le serveur bug, on sert depuis le cache
+      return caches.match(event.request);
+    })
+  );
 });

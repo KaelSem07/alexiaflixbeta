@@ -1,2 +1,17 @@
-DirectoryIndex index.html
-Options -Indexes
+<IfModule mod_headers.c>
+    # CRITIQUE : Autorise la fenêtre de connexion Google à communiquer avec le site
+    Header set Cross-Origin-Opener-Policy "same-origin-allow-popups"
+    
+    # Sécurité standard (optionnel mais recommandé)
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>
+
+# Gestion du routing pour l'application (SPA)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
